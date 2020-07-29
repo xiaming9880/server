@@ -40,6 +40,10 @@
 #include <thread>
 #include <vector>
 
+constexpr char kInferHeaderContentLengthHTTPHeader[] =
+    "Inference-Header-Content-Length";
+constexpr int MAX_GRPC_MESSAGE_SIZE = INT32_MAX;
+
 namespace nvidia { namespace inferenceserver { namespace client {
 
 constexpr char kInferHeaderContentLengthHTTPHeader[] =
