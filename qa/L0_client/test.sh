@@ -50,22 +50,21 @@ for l in libgrpcclient.so libgrpcclient_static.a libhttpclient.so libhttpclient_
     fi
 done
 
-client_lib=$(pwd)/triton_client/lib
-client_inc=$(pwd)/triton_client/include
-
-# Test linking against the shared library
-g++ grpc_test.cc -o grpc_test -I$client_inc -L$client_lib -lgrpcclient
+# Test a simple app using Triton gRPC API
+g++ grpc_client.cc -o simple_grpc_client -Itriton_client/include \
+  -L$(pwd)/triton_client/lib -I/workspace/builddir/grpc/include \
+  -I/workspace/builddir/protobuf/include -lgrpcclient
 
 if [ $? -eq 0 ]; then
-    if [[ ! -x "./grpc_test" ]]; then
-        echo -e "*** grpc_test executable not present\n"
+    if [[ ! -x "./simple_grpc_client" ]]; then
+        echo -e "*** simple_grpc_client executable not present\n"
         RET=1
     else
-        ./grpc_test
+        ./simple_grpc_client
         if [ $? -eq 0 ]; then
-            echo -e "\n***\n*** grpc_test exited with 0 PASSED\n***"
+            echo -e "\n***\n*** simple_grpc_client exited with 0 PASSED\n***"
         else
-            echo -e "\n***\n*** grpc_test exited with non-zero FAILED\n***"
+            echo -e "\n***\n*** simple_grpc_client exited with non-zero FAILED\n***"
             RET=1
         fi
     fi
@@ -74,72 +73,21 @@ else
     RET=1
 fi
 
-#
-# Test linking against static library
-#
-
-static_libs="$client_lib/libgrpcclient_static.a $client_lib/libgrpc++.a $client_lib/libgrpc.a \
-             $client_lib/libgpr.a $client_lib/libcares.a $client_lib/libaddress_sorting.a $client_lib/libprotobuf.a \
-             $client_lib/libcurl.a"
-
-g++ grpc_test.cc $static_libs -o grpc_test_static -I$client_inc -lz -lssl -lcrypto -lpthread
-
-if [ $? -eq 0 ]; then
-    if [[ ! -x "./grpc_test_static" ]]; then
-        echo -e "*** grpc_test_static executable not present\n"
-        RET=1
-    else
-        ./grpc_test_static
-        if [ $? -eq 0 ]; then
-            echo -e "\n***\n*** grpc_test_static exited with 0 PASSED\n***"
-        else
-            echo -e "\n***\n*** grpc_test_static exited with non-zero FAILED\n***"
-            RET=1
-        fi
-    fi
-else
-    echo -e "\n***\n*** Client headers build FAILED\n***"
-    RET=1
-fi
-
-#
 # Test a simple app using Triton HTTP API
-#
-
-# Test linking against the shared library
-g++ http_test.cc -o http_test -I$client_inc -L$client_lib -lhttpclient
-
-if [ $? -eq 0 ]; then
-    if [[ ! -x "./http_test" ]]; then
-        echo -e "*** http_test executable not present\n"
-        RET=1
-    else
-        ./http_test
-        if [ $? -eq 0 ]; then
-            echo -e "\n***\n*** http_test exited with 0 PASSED\n***"
-        else
-            echo -e "\n***\n*** http_test exited with non-zero FAILED\n***"
-            RET=1
-        fi
-    fi
-else
-    echo -e "\n***\n*** Client headers build FAILED\n***"
-    RET=1
-fi
-
-g++ http_test.cc $client_lib/libhttpclient_static.a $client_lib/libcurl.a -o http_test_static \
-  -I$client_inc -lz -lssl -lcrypto -lpthread
+g++ http_client.cc -o simple_http_client -Itriton_client/include \
+  -L$(pwd)/triton_client/lib -I/workspace/builddir/grpc/include \
+  -lhttpclient
 
 if [ $? -eq 0 ]; then
-    if [[ ! -x "./http_test_static" ]]; then
-        echo -e "*** http_test_static executable not present\n"
+    if [[ ! -x "./simple_http_client" ]]; then
+        echo -e "*** simple_http_client executable not present\n"
         RET=1
     else
-        ./http_test_static
+        ./simple_http_client
         if [ $? -eq 0 ]; then
-            echo -e "\n***\n*** http_test_static exited with 0 PASSED\n***"
+            echo -e "\n***\n*** simple_http_client exited with 0 PASSED\n***"
         else
-            echo -e "\n***\n*** http_test_static exited with non-zero FAILED\n***"
+            echo -e "\n***\n*** simple_http_client exited with non-zero FAILED\n***"
             RET=1
         fi
     fi
