@@ -45,10 +45,16 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 #
 include(FetchContent)
 
-set(REPO_TAG main)
+set(REPO_TAG davidg-core)
 FetchContent_Declare(
   repo-common
   GIT_REPOSITORY https://github.com/triton-inference-server/common.git
+  GIT_TAG ${REPO_TAG}
+  GIT_SHALLOW ON
+)
+FetchContent_Declare(
+  repo-core
+  GIT_REPOSITORY https://github.com/triton-inference-server/core.git
   GIT_TAG ${REPO_TAG}
   GIT_SHALLOW ON
 )
@@ -58,7 +64,7 @@ FetchContent_Declare(
   GIT_TAG ${REPO_TAG}
   GIT_SHALLOW ON
 )
-FetchContent_MakeAvailable(repo-common repo-backend)
+FetchContent_MakeAvailable(repo-common repo-core repo-backend)
 
 
 add_definitions(-DTRITON_VERSION="${TRITON_VERSION}")

@@ -229,6 +229,7 @@ target_link_libraries(
   PRIVATE rt
   ${TRACING_LIBRARIES}
   PRIVATE protobuf::libprotobuf
+  PRIVATE triton-common-json
   PRIVATE triton-core-serverapi
   PRIVATE tritonserver
 )
