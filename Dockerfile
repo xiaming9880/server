@@ -383,8 +383,8 @@ RUN for BE in identity repeat square onnxruntime; do \
                        -DTRITON_ONNXRUNTIME_INCLUDE_PATHS="/opt/tritonserver/include/onnxruntime" \
                        -DTRITON_ONNXRUNTIME_LIB_PATHS="/opt/tritonserver/backends/onnxruntime" .. && \
                  make -j16 install && \
-                 mkdir -p /opt/tritonserver/backends/${BE} && \
-                 cp -r install/lib/libtriton_${BE}.so /opt/tritonserver/backends/${BE}); \
+                 mkdir -p /opt/tritonserver/backends && \
+                 cp -r install/backends/${BE} /opt/tritonserver/backends/.); \
     done
 RUN rm -fr /tmp/triton_backends && mkdir -p /tmp/triton_backends && \
     (cd /tmp/triton_backends && \
@@ -400,8 +400,8 @@ RUN rm -fr /tmp/triton_backends && mkdir -p /tmp/triton_backends && \
                -DTRITON_TENSORFLOW_VERSION="1" .. \
                -DTRITON_TENSORFLOW_LIB_PATHS="/opt/tritonserver/backends/tensorflow1" .. && \
          make -j16 install && \
-         mkdir -p /opt/tritonserver/backends/tensorflow1 && \
-         cp -r install/lib/libtriton_tensorflow1.so /opt/tritonserver/backends/tensorflow1)
+         mkdir -p /opt/tritonserver/backends && \
+         cp -r install/backends/tensorflow1 /opt/tritonserver/backends/.); \
 RUN rm -fr /tmp/triton_backends && mkdir -p /tmp/triton_backends && \
     (cd /tmp/triton_backends && \
          git clone --single-branch --depth=1 -b ${BACKEND_TAG} \
@@ -416,8 +416,8 @@ RUN rm -fr /tmp/triton_backends && mkdir -p /tmp/triton_backends && \
                -DTRITON_TENSORFLOW_VERSION="2" .. \
                -DTRITON_TENSORFLOW_LIB_PATHS="/opt/tritonserver/backends/tensorflow2" .. && \
          make -j16 install && \
-         mkdir -p /opt/tritonserver/backends/tensorflow2 && \
-         cp -r install/lib/libtriton_tensorflow2.so /opt/tritonserver/backends/tensorflow2)
+         mkdir -p /opt/tritonserver/backends && \
+         cp -r install/backends/tensorflow2 /opt/tritonserver/backends/.); \
 
 ENV TRITON_SERVER_VERSION ${TRITON_VERSION}
 ENV NVIDIA_TRITON_SERVER_VERSION ${TRITON_CONTAINER_VERSION}
