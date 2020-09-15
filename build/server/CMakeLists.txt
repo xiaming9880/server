@@ -45,7 +45,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 #
 include(FetchContent)
 
-set(REPO_TAG davidg-core)
+set(REPO_TAG davidg-dir)
 FetchContent_Declare(
   repo-common
   GIT_REPOSITORY https://github.com/triton-inference-server/common.git

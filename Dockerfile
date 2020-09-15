@@ -365,7 +365,7 @@ RUN LIBCUDA_FOUND=$(ldconfig -p | grep -v compat | awk '{print $1}' | grep libcu
 
 # Build the backends.
 #
-ARG BACKEND_TAG=davidg-core
+ARG BACKEND_TAG=davidg-dir
 RUN for BE in identity repeat square onnxruntime; do \
         rm -fr /tmp/triton_backends && mkdir -p /tmp/triton_backends && \
             (cd /tmp/triton_backends && \
