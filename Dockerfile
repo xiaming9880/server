@@ -349,7 +349,6 @@ RUN LIBCUDA_FOUND=$(ldconfig -p | grep -v compat | awk '{print $1}' | grep libcu
                   -DTRITON_ENABLE_ONNXRUNTIME_TENSORRT=ON \
                   -DTRITON_ENABLE_ONNXRUNTIME_OPENVINO=ON \
                   -DTRITON_ENABLE_PYTORCH=ON \
-                  -DTRITON_ENABLE_PYTHON=ON \
                   -DTRITON_ENABLE_ENSEMBLE=ON \
                   -DTRITON_ONNXRUNTIME_INCLUDE_PATHS="/opt/tritonserver/include/onnxruntime" \
                   -DTRITON_PYTORCH_INCLUDE_PATHS="/opt/tritonserver/include/torch;/opt/tritonserver/include/torch/torch/csrc/api/include;/opt/tritonserver/include/torchvision;/usr/include/python3.6" \
@@ -366,7 +365,7 @@ RUN LIBCUDA_FOUND=$(ldconfig -p | grep -v compat | awk '{print $1}' | grep libcu
 # Build the backends.
 #
 ARG BACKEND_TAG=main
-RUN for BE in identity repeat square onnxruntime; do \
+RUN for BE in identity repeat square onnxruntime python; do \
         rm -fr /tmp/triton_backends && mkdir -p /tmp/triton_backends && \
             (cd /tmp/triton_backends && \
                  git clone --single-branch --depth=1 -b ${BACKEND_TAG} \
